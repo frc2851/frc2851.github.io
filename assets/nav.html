@@ -6,9 +6,9 @@
     <p id="nvtxt-home" class="navbartext">Home</p>
     <p id="nvtxt-about" class="navbartext">About</p>
     <p id="nvtxt-history" class="navbartext">History</p>
-    <p id="nvtxt-robots" class="navbartext">Robots</p>
     <p id="nvtxt-sponsors" class="navbartext">Sponsors</p>
     <p id="nvtxt-community" class="navbartext">Community</p>
+    <p id="nvtxt-portal" class="navbartext">Team Portal</p>
     <a style="opacity: 0%;" id="watchicon"  href="/watch"><img src="/assets/img/icons/watch.svg"></a>
     <a id="menuicon" onclick="myFunction()"><img src="/assets/img/icons/menu.svg"></a>
   </div>
@@ -17,9 +17,9 @@
       <a onmouseover="hoverhome()" class="navicon-home" href="/"><img lass="navicon-home" src="/assets/img/icons/home.svg"></a>
       <a onmouseover="hoverabout()" class="navicon-about" href="/about"><img src="/assets/img/icons/about.svg"></a>
       <a onmouseover="hoverhistory()" class="navicon-history" href="/history"><img src="/assets/img/icons/history.svg"></a>
-      <a onmouseover="hoverrobots()" class="navicon-robots" href="/robots"><img src="/assets/img/icons/robots.svg"></a>
       <a onmouseover="hoversponsors()" class="navicon-sponsors" href="/sponsors"><img src="/assets/img/icons/sponsors.svg"></a>
       <a onmouseover="hovercommunity()" class="navicon-community" href="/community"><img src="/assets/img/icons/community.svg"></a>
+      <a onmouseover="hoverportal()" class="navicon-portal" href="/portal"><img src="/assets/img/icons/portal.svg"></a>
     </div>
   </div>
 </div>
@@ -34,7 +34,7 @@
   var home = document.getElementById("nvtxt-home");
   var about = document.getElementById("nvtxt-about");
   var histor = document.getElementById("nvtxt-history");
-  var robots = document.getElementById("nvtxt-robots");
+  var portal = document.getElementById("nvtxt-portal");
   var sponsors = document.getElementById("nvtxt-sponsors");
   var community = document.getElementById("nvtxt-community");
   var blank = document.getElementById("nvtxt-blank");
@@ -62,7 +62,7 @@
       home.style.display = "none";
       about.style.display = "none";
       histor.style.display = "none";
-      robots.style.display = "none";
+      portal.style.display = "none";
       sponsors.style.display = "none";
       community.style.display = "none";
       blank.style.display = "none";
@@ -72,7 +72,7 @@
     home.style.display = "grid";
     about.style.display = "none";
     histor.style.display = "none";
-    robots.style.display = "none";
+    portal.style.display = "none";
     sponsors.style.display = "none";
     community.style.display = "none";
     blank.style.display = "none";
@@ -81,7 +81,7 @@
     home.style.display = "none";
     about.style.display = "grid";
     histor.style.display = "none";
-    robots.style.display = "none";
+    portal.style.display = "none";
     sponsors.style.display = "none";
     community.style.display = "none";
     blank.style.display = "none";
@@ -90,16 +90,16 @@
     home.style.display = "none";
     about.style.display = "none";
     histor.style.display = "grid";
-    robots.style.display = "none";
+    portal.style.display = "none";
     sponsors.style.display = "none";
     community.style.display = "none";
     blank.style.display = "none";
   }
-  function hoverrobots() {
+  function hoverportal() {
     home.style.display = "none";
     about.style.display = "none";
     histor.style.display = "none";
-    robots.style.display = "grid";
+    portal.style.display = "grid";
     sponsors.style.display = "none";
     community.style.display = "none";
     blank.style.display = "none";
@@ -108,7 +108,7 @@
     home.style.display = "none";
     about.style.display = "none";
     histor.style.display = "none";
-    robots.style.display = "none";
+    portal.style.display = "none";
     sponsors.style.display = "grid";
     community.style.display = "none";
     blank.style.display = "none";
@@ -117,7 +117,7 @@
     home.style.display = "none";
     about.style.display = "none";
     histor.style.display = "none";
-    robots.style.display = "none";
+    portal.style.display = "none";
     sponsors.style.display = "none";
     community.style.display = "grid";
     blank.style.display = "none";
