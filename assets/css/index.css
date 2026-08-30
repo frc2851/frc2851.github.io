@@ -440,7 +440,7 @@ footer {
   border-bottom-left-radius: 12.5px;
   border-top-left-radius: 12.5px;
   border-right: 5px solid var(--black3);
-  background-image: url(/assets/img/robots/2026/b.jpg);
+  background-image: url(/assets/img/spotimg/openhouse.png);
   background-size: cover;
   background-position: center;
 }
@@ -655,6 +655,79 @@ footer {
 #about-tc {
   background-image: url("/assets/img/carousel/2024-teamimg.jpg");
 }
+.aboutpg-text {
+  margin: 10px 20% 0 20%;
+  font-size: 20px;
+  text-align: justify;
+}
+.aboutpg-img-container {
+  background: var(--striped-black-large);
+  border-radius: var(--radius);
+  margin: 10px 30% 0 30%;
+  padding: 10px;
+  width: 40%;
+}
+.aboutpg-img {
+  width: 100%;
+  border-radius: var(--radius);
+}
+.aboutpg-img-txt {
+  margin: 10px  0 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  width: 100%;
+  text-align: center;
+}
+
+.department-container {
+  width: 60%;
+  margin-left: 20%;
+  min-height: 200px;
+  border-radius: var(--radius);
+  background-image: var(--striped-black-large);
+  display: flex;
+  transition: all .2s ease-in-out;
+  margin-top: 20px;
+} 
+.aboutright {
+  width: 50%;
+  margin: 10px;
+  h1 {
+    font-weight: 700;
+  }
+}
+.departmentpic {
+  height: 200px;
+  margin: auto 0 auto 0;
+  width: 50%;
+  object-fit: cover;
+  border-radius: var(--radius);
+  transition: all .2s ease-in-out;
+}
+
+@media screen and (max-width:770px) {
+  .aboutpg-text, .aboutpg-img-container {
+  margin: 10px 5% 0 5%;
+  }
+  .aboutpg-img-container {
+    width: 90%;
+  }
+  .about-container {
+    display: block;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 20px;
+  }
+  .departmentpic {
+    height: 200px;
+    width: 100%;
+  }
+  .aboutright {
+    width: 100%;
+    height: auto;
+  }
+}
+/* Related to OLD About Us v */
 .about-list {
   margin: auto;
   width: 100%;
@@ -864,6 +937,9 @@ footer {
   background-image: var(--striped-gold);
 }
 
+.mibro126 {
+  /* background-image: url("/assets/img/comps/") !important; */
+}
 .frc26 {  
   background-image: url("/assets/img/comps/frc26.jpg") !important;
 }
