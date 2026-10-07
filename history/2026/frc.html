@@ -67,12 +67,6 @@
         const HEADERS = { 'X-TBA-Auth-Key': API_KEY };
         const RETRY_LIMIT = 3;
 
-        // --- Utility Functions ---
-
-        /**
-         * Converts TBA match type keys to readable names.
-         * @param {string} key 
-         */
         function getMatchType(key) {
             switch (key) {
                 case 'qm': return 'QUAL';

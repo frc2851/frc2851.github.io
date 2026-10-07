@@ -151,36 +151,6 @@ a {
 .txtc {
   text-align: center;
 }
-
-/* Department Colors */
-
-.build {
-  background: var(--striped-red);
-}
-.design {
-  background: var(--striped-lightblue);
-}
-.programming {
-  background: var(--striped-green);
-}
-.electrical {
-  background: var(--striped-gold);
-}
-.marketing {
-  background: var(--striped-darkblue);
-}
-.safety {
-  background: var(--striped-orange);
-}
-.business {
-  background: var(--striped-magenta);
-}
-.executive {
-  background: var(--striped-black-large);
-}
-.notebook {
-  background: repeating-linear-gradient(-45deg,#ac8787,#ac8787 10px,#a18181 10px,#a18181 20px);
-}
 .cba {
   margin: 5px;
 }
@@ -440,7 +410,7 @@ footer {
   border-bottom-left-radius: 12.5px;
   border-top-left-radius: 12.5px;
   border-right: 5px solid var(--black3);
-  background-image: url(/assets/img/spotimg/openhouse.png);
+  background-image: url(/assets/img/robots/2026/b.jpg);
   background-size: cover;
   background-position: center;
 }

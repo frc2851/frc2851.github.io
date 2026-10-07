@@ -67,12 +67,6 @@
         const HEADERS = { 'X-TBA-Auth-Key': API_KEY };
         const RETRY_LIMIT = 3;
 
-        // --- Utility Functions ---
-
-        /**
-         * Converts TBA match type keys to readable names.
-         * @param {string} key 
-         */
         function getMatchType(key) {
             switch (key) {
                 case 'qm': return 'QUAL';
@@ -84,31 +78,22 @@
             }
         }
 
-        /**
-         * Formats UTC timestamp into a readable local time string.
-         * @param {number} timestamp 
-         */
         function formatMatchTime(timestamp) {
             if (!timestamp) return 'Time TBD';
             const date = new Date(timestamp * 1000);
             return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
 
-        /**
-         * Handles the fetching logic with exponential backoff for resilience.
-         * @param {string} endpoint The TBA API endpoint (e.g., '/team/frc2851/event/2025mibro/matches')
-         * @param {number} attempt Current retry attempt count
-         */
         async function fetchTBA(endpoint, attempt = 1) {
             const url = `${BASE_URL}${endpoint}`;
-            const delay = Math.pow(2, attempt) * 100; // Exponential backoff: 200ms, 400ms, 800ms...
+            const delay = Math.pow(2, attempt) * 100;
 
             try {
                 const response = await fetch(url, { headers: HEADERS });
 
                 if (response.status === 304) {
                     console.log(`[TBA Cache] Data for ${endpoint} has not changed.`);
-                    return JSON.parse(localStorage.getItem(endpoint)); // Retrieve from cache if not modified
+                    return JSON.parse(localStorage.getItem(endpoint));
                 }
 
                 if (!response.ok) {
@@ -117,8 +102,6 @@
                 
                 const data = await response.json();
                 
-                // Cache the successful response for 304 handling if using ETag/If-None-Match headers (TBA recommended)
-                // Note: The simple fetch above doesn't implement If-None-Match, but this simulates the concept.
                 localStorage.setItem(endpoint, JSON.stringify(data)); 
                 return data;
 
@@ -132,10 +115,6 @@
             }
         }
 
-        /**
-         * Renders an individual match block.
-         * @param {object} match 
-         */
         function renderMatch(match) {
 
             
@@ -155,134 +134,133 @@
             const resultText = hasPlayed ? ((is2851Red && redScore > blueScore) || (is2851Blue && blueScore > redScore) ? 'WIN' : 'LOSS') : 'Upcoming';
             const teamsToString = (keys) => keys.map(k => `<span class="${k === TEAM_KEY ? 'crevo' : 'text-gray-300'}">${k.substring(3)}</span>`).join('');
 
-            // --- NEW LOGIC FOR VIDEO LINK ---
             let videoLink = '';
             const youtubeVideo = match.videos?.find(v => v.type === 'youtube');
             const videoId = youtubeVideo ? youtubeVideo.key : null;
 
-
-            // If it's a playoff match, show "SF 1-2" (Set 1, Match 2) instead of just "PLAYOFF 1"
-    let matchLabel = '';
-    if (match.comp_level === 'qm' || match.comp_level === 'p') {
-        matchLabel = `${matchType} ${match.match_number}`;
-    } else {
-        // For Playoffs (qf, sf, f), use Set Number - Match Number
-        matchLabel = `${matchType} ${match.set_number}-${match.match_number}`;
-    }
-
-            if (videoId) {
-                const url = `https://www.youtube.com/watch?v=${videoId}`;
-                // Wrap the title in an anchor tag with click styling and a YouTube icon (simple SVG for a play button)
-                videoLink = `<a href="${url}" target="_blank" class="text-blue-300 hover:text-blue-200 hover:underline transition-colors duration-200 flex items-center group">
-                                <span>${matchLabel}</span> 
-                     </a>`;
-    } else {
-        videoLink = `<span>${matchLabel}</span>`;
-            }
-            
-            // ------------------------------------
-
-            return `
-            <div class="game"><div class="gamebar"><div class="alliance red-all aaflex">
-        <p class="aaflex">${teamsToString(match.alliances.red.team_keys)}</p>
-      </div><div class="red-all-score all-score">
-        <h1>${redScore}</h1>
-      </div><div class="middle-area">
-        <p>${videoLink}</p>
-        <p>CREVO ${resultText}</p>
-      </div><div class="blue-all-score all-score">
-        <h1>${blueScore}</h1>
-      </div><div class="alliance blue-all aaflex">
-        <p class="aaflex">${teamsToString(match.alliances.blue.team_keys)}</p>
-            `;
+        let matchLabel = '';
+        if (match.comp_level === 'qm' || match.comp_level === 'p') {
+            matchLabel = `${matchType} ${match.match_number}`;
+        } else {
+            matchLabel = `${matchType} ${match.set_number}-${match.match_number}`;
         }
 
-        /**
-         * Fetches and displays Team 2851's current event status (rank/record) and event title.
-         */
-                async function loadStatus() {
+        if (videoId) {
+            const url = `https://www.youtube.com/watch?v=${videoId}`;
+            videoLink = `<a href="${url}" target="_blank" class="text-blue-300 hover:text-blue-200 hover:underline transition-colors duration-200 flex items-center group">
+                            <span>${matchLabel}</span> 
+                    </a>`;
+        } else {
+            videoLink = `<span>${matchLabel}</span>`;
+            }
+
+                return `
+                <div class="game"><div class="gamebar"><div class="alliance red-all aaflex">
+            <p class="aaflex">${teamsToString(match.alliances.red.team_keys)}</p>
+        </div><div class="red-all-score all-score">
+            <h1>${redScore}</h1>
+        </div><div class="middle-area">
+            <p>${videoLink}</p>
+            <p>CREVO ${resultText}</p>
+        </div><div class="blue-all-score all-score">
+            <h1>${blueScore}</h1>
+        </div><div class="alliance blue-all aaflex">
+            <p class="aaflex">${teamsToString(match.alliances.blue.team_keys)}</p>
+                `;
+            }
+
+        async function loadStatus() {
+            const rankEl = document.getElementById('team-rank');
+            const recordEl = document.getElementById('team-record');
+            const titleEl = document.getElementById('event-title');
+            const scoreEl = document.getElementById('team-score');
+            const playoffEl = document.getElementById('playoff-status');
+
             try {
-                // Fetch Event Details for Title
-                const eventDetails = await fetchTBA(`/event/${EVENT_KEY}`);
-                const eventTitleElement = document.getElementById('event-title');
-                
-                // Add null check for robustness, although it should exist
-                if (eventTitleElement) {
-                    if (eventDetails && eventDetails.name) {
-                        eventTitleElement.textContent = eventDetails.name;
-                    } else {
-                        eventTitleElement.textContent = 'Event Details N/A';
+                try {
+                    const eventDetails = await fetchTBA(`/event/${EVENT_KEY}`);
+                    if (titleEl) {
+                        titleEl.textContent = eventDetails?.name || 'Event Details N/A';
                     }
+                } catch (eventErr) {
+                    console.warn('Could not load event title:', eventErr.message);
+                    if (titleEl) titleEl.textContent = 'Event Details Unavailable';
                 }
 
-                // Fetch Team Status
                 const status = await fetchTBA(`/team/${TEAM_KEY}/event/${EVENT_KEY}/status`);
 
                 if (!status) {
-                    document.getElementById('team-rank').textContent = 'N/A';
-                    document.getElementById('team-record').textContent = 'N/A';
+                    if (rankEl) rankEl.textContent = 'N/A';
+                    if (recordEl) recordEl.textContent = 'N/A';
+                    if (scoreEl) scoreEl.textContent = 'N/A';
+                    if (playoffEl) playoffEl.textContent = 'N/A';
                     return;
                 }
 
-                // Status/Rank Data
-                document.getElementById('team-rank').textContent = status.qual?.ranking?.rank || 'N/A';
-                document.getElementById('team-record').textContent = `${status.qual?.ranking?.record?.wins || 0}-${status.qual?.ranking?.record?.losses || 0}-${status.qual?.ranking?.record?.ties || 0}`;
-                // FIX: Added null check for 'team-score' element which is missing in the HTML
-                const teamScoreElement = document.getElementById('team-score');
-                    if (teamScoreElement) {
-                        teamScoreElement.textContent = status.qual?.ranking?.sort_order_info?.[0]?.sort_value?.toFixed(2) || 'N/A';
-                    } 
-                // Playoff Status
-                const playoffText = status.playoff?.status ?
-                    `${status.playoff.status.toUpperCase()} (${status.playoff.level.toUpperCase()})` :
-                        status.status.toUpperCase();
-                // FIX: Added null check for 'playoff-status' element which is missing in the HTML
-                const playoffStatusElement = document.getElementById('playoff-status');
-                    if (playoffStatusElement) {
-                        playoffStatusElement.textContent = playoffText;
+                const qualRank = status.qual?.ranking?.rank;
+                if (rankEl) {
+                    rankEl.textContent = qualRank != null ? qualRank : 'N/A';
+                }
+
+                const wins = status.qual?.ranking?.record?.wins ?? 0;
+                const losses = status.qual?.ranking?.record?.losses ?? 0;
+                const ties = status.qual?.ranking?.record?.ties ?? 0;
+
+                if (recordEl) {
+                    recordEl.textContent = status.qual?.ranking?.record 
+                        ? `${wins}-${losses}-${ties}` 
+                        : '0-0-0';
+                }
+
+                if (scoreEl) {
+                    const primarySort = status.qual?.ranking?.sort_order_info?.[0]?.sort_value;
+                    scoreEl.textContent = typeof primarySort === 'number' ? primarySort.toFixed(2) : 'N/A';
+                }
+
+                if (playoffEl) {
+                    let playoffDisplay = 'Upcoming';
+
+                    if (status.playoff?.status && status.playoff?.level) {
+                        playoffDisplay = `${status.playoff.status.toUpperCase()} (${status.playoff.level.toUpperCase()})`;
+                    } else if (status.overall_status_str) {
+                        playoffDisplay = status.overall_status_str.replace(/<[^>]*>?/gm, '');
                     }
+
+                    playoffEl.textContent = playoffDisplay;
+                }
+
             } catch (error) {
                 console.error('Error loading status:', error);
-                // Attempt to update status fields in case of fetch error
-                const teamRank = document.getElementById('team-rank');
-                if (teamRank) teamRank.textContent = 'API Error';
+                if (rankEl) rankEl.textContent = 'API Error';
+                if (recordEl) recordEl.textContent = '--';
             }
         }
 
-        /**
-         * Fetches and displays Team 2851's match schedule.
-         */
         async function loadMatches() {
             const matchesContainer = document.getElementById('match-schedule');
-            // FIX: Move 'now' definition outside of the conditional block to ensure it's always in scope
             const now = Math.floor(Date.now() / 1000); 
             
             try {
-                // Fetch ALL matches for the event that 2851 participated in
                 const allMatches = await fetchTBA(`/team/${TEAM_KEY}/event/${EVENT_KEY}/matches`);
 
-                // Filter for Qualification (qm) and Elimination (qf, sf, f) matches, 
-                // and sort by scheduled time in DESCENDING order (newest on top)
                 const filteredMatches = allMatches
-                    .filter(m => m.comp_level !== 'p') // Filter out practice matches
-                    .sort((a, b) => b.time - a.time); // Newest matches (highest time) first
+                    .filter(m => m.comp_level !== 'p')
+                    //.sort((a, b) => a.time - b.time); //ascending order (1-999)
+                    .sort((a, b) => b.time - a.time); //descending order (999-1)
 
                 if (matchesContainer) {
-                    matchesContainer.innerHTML = ''; // Clear loading message
+                    matchesContainer.innerHTML = '';
 
                     if (filteredMatches.length === 0) {
                         matchesContainer.innerHTML = '<p class="text-center text-gray-500">No official matches found for this event yet.</p>';
                         return;
                     }
-
-                    // 'now' definition removed from here
                     
                     filteredMatches.forEach(match => {
                         matchesContainer.innerHTML += renderMatch(match);
                     });
                 }
                 
-                // Calculate next match time by finding the *earliest* match in the future (sort ASC)
                 const nextMatch = allMatches
                     .filter(m => m.comp_level !== 'p' && m.time > now)
                     .sort((a, b) => a.time - b.time)[0]; 
@@ -298,15 +276,11 @@
             }
         }
 
-        /**
-         * Initialization function
-         */
         async function initDashboard() {
             try {
                 await loadStatus();
                 await loadMatches();
 
-                // Hide loading indicator and show content
                 const loadingIndicator = document.getElementById('loading-indicator');
                 if (loadingIndicator) loadingIndicator.classList.add('hidden');
                 
@@ -314,7 +288,6 @@
                 if (content) content.classList.remove('hidden');
 
             } catch (error) {
-                // Handle critical failure with robust null checks
                 console.error('Critical initialization error:', error);
                 
                 const loadingIndicator = document.getElementById('loading-indicator');
@@ -334,8 +307,6 @@
             }
         }
 
-
-        // Start the application
         window.onload = initDashboard;
     </script>
     
