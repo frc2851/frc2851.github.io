@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <!-- Responsiveness -->
+      <meta charset="UTF8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <!-- Page Title -->
+      <title>Belleville 27</title>
+       
+      <!-- Link Assets & CSS -->
+      <link rel="icon" href="/assets/img/logos/favicon.svg" type="image/png" sizes="16x16" />
+      <link rel="stylesheet" href="/assets/css/bootstrap.css">
+      <link href="/assets/css/index.css" rel="stylesheet" type="text/css" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    </head>
+<body>
+
+  <!-- Link JS -->
+  <script src="/assets/js/bootstrap.js"></script>
+  <script src="/assets/js/jquery.js"></script>
+
+  <!-- Navbar located in /assets/nav.html -->
+  <div id="nav-placeholder">
+  </div>
+  <script>
+  $(function(){
+    $("#nav-placeholder").load("/assets/nav.html");
+  });
+  </script>
+  <div class="jbo"> </div>
+    <div class="miwk527 jb t-card">
+      <div class="blktcbk">
+      <h1 class="title">Week5 2027</h1>
+      </div>
+    </div>
+  <div class="max-w-6xl mx-auto">
+      <h1 class="heading">QUAL RECORD</h1>
+      <h3 class="txtc"><span id="team-record">--</span></h3>
+      <h1 class="heading">QUAL RANK</h1>
+      <h3 class="txtc"><span id="team-rank" class="font-semibold text-white">--</span></h3>
+    <p class="txtc">hello, our second event hasn't been confirmed yet, standby :)</p>
+  </div>
+
+
+      <div id="match-schedule" class="match-list max-h-96 overflow-y-auto pr-2 space-y-3">
+        <p class="text-center text-gray-500" id="match-loading-message">Loading match data...</p>
+      </div>
+
+    
+
+
+
+
+
+
+
+      <script>
+        // --- API Configuration ---
+        const TEAM_KEY = 'frc2851';
+        const EVENT_KEY = '2027mi---';
+        const API_KEY = 'azzCHBd2ABAiRH2wvlw8ThoDllzVGkpGCFnOCKq1XnNFWMyYMnJwWhn5ufNoGb7f';
+        const BASE_URL = 'https://www.thebluealliance.com/api/v3';
+        const HEADERS = { 'X-TBA-Auth-Key': API_KEY };
+        const RETRY_LIMIT = 3;
+
+                // --- Utility Functions ---
+
+        /**
+         * Converts TBA match type keys to readable names.
+         * @param {string} key 
+         */
+        function getMatchType(key) {
+            switch (key) {
+                case 'qm': return 'QUAL';
+                case 'qf': return 'PLAYOFF';
+                case 'sf': return 'PLAYOFF';
+                case 'f': return 'FINAL';
+                case 'p': return 'PRACTICE';
+                default: return 'Match';
+            }
+        }
+
+        function formatMatchTime(timestamp) {
+            if (!timestamp) return 'Time TBD';
+            const date = new Date(timestamp * 1000);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        async function fetchTBA(endpoint, attempt = 1) {
+            const url = `${BASE_URL}${endpoint}`;
+            const delay = Math.pow(2, attempt) * 100;
+
+            try {
+                const response = await fetch(url, { headers: HEADERS });
+
+                if (response.status === 304) {
+                    console.log(`[TBA Cache] Data for ${endpoint} has not changed.`);
+                    return JSON.parse(localStorage.getItem(endpoint));
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                localStorage.setItem(endpoint, JSON.stringify(data)); 
+                return data;
+
+            } catch (error) {
+                if (attempt < RETRY_LIMIT) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchTBA(endpoint, attempt + 1);
+                } else {
+                    throw new Error(`Failed to fetch ${endpoint} after ${RETRY_LIMIT} attempts. ${error.message}`);
+                }
+            }
+        }
+
+        function renderMatch(match) {
+
+            
+            const is2851Red = match.alliances.red.team_keys.includes(TEAM_KEY);
+            const is2851Blue = match.alliances.blue.team_keys.includes(TEAM_KEY);
+            const allianceClass = is2851Red ? 'crevo' : 
+                                   is2851Blue ? 'crevo' : 
+                                   'crevo';
+
+            const matchType = getMatchType(match.comp_level);
+            const matchTime = formatMatchTime(match.time);
+            
+            const redScore = match.alliances.red.score === -1 ? 'TBD' : match.alliances.red.score;
+            const blueScore = match.alliances.blue.score === -1 ? 'TBD' : match.alliances.blue.score;
+            const hasPlayed = redScore !== 'TBD' || match.actual_time > 0;
+            const resultClass = hasPlayed ? (is2851Red && redScore > blueScore) || (is2851Blue && blueScore > redScore) ? 'text-green-400 font-bold' : 'text-red-400 font-bold' : 'text-gray-400';
+            const resultText = hasPlayed ? ((is2851Red && redScore > blueScore) || (is2851Blue && blueScore > redScore) ? 'WIN' : 'LOSS') : 'Upcoming';
+            const teamsToString = (keys) => keys.map(k => `<span class="${k === TEAM_KEY ? 'crevo' : 'text-gray-300'}">${k.substring(3)}</span>`).join('');
+
+            let videoLink = '';
+            const youtubeVideo = match.videos?.find(v => v.type === 'youtube');
+            const videoId = youtubeVideo ? youtubeVideo.key : null;
+
+        let matchLabel = '';
+        if (match.comp_level === 'qm' || match.comp_level === 'p') {
+            matchLabel = `${matchType} ${match.match_number}`;
+        } else {
+            matchLabel = `${matchType} ${match.set_number}-${match.match_number}`;
+        }
+
+        if (videoId) {
+            const url = `https://www.youtube.com/watch?v=${videoId}`;
+            videoLink = `<a href="${url}" target="_blank" class="text-blue-300 hover:text-blue-200 hover:underline transition-colors duration-200 flex items-center group">
+                            <span>${matchLabel}</span> 
+                    </a>`;
+        } else {
+            videoLink = `<span>${matchLabel}</span>`;
+            }
+
+                return `
+                <div class="game"><div class="gamebar"><div class="alliance red-all aaflex">
+            <p class="aaflex">${teamsToString(match.alliances.red.team_keys)}</p>
+        </div><div class="red-all-score all-score">
+            <h1>${redScore}</h1>
+        </div><div class="middle-area">
+            <p>${videoLink}</p>
+            <p>CREVO ${resultText}</p>
+        </div><div class="blue-all-score all-score">
+            <h1>${blueScore}</h1>
+        </div><div class="alliance blue-all aaflex">
+            <p class="aaflex">${teamsToString(match.alliances.blue.team_keys)}</p>
+                `;
+            }
+
+        async function loadStatus() {
+            const rankEl = document.getElementById('team-rank');
+            const recordEl = document.getElementById('team-record');
+            const titleEl = document.getElementById('event-title');
+            const scoreEl = document.getElementById('team-score');
+            const playoffEl = document.getElementById('playoff-status');
+
+            try {
+                try {
+                    const eventDetails = await fetchTBA(`/event/${EVENT_KEY}`);
+                    if (titleEl) {
+                        titleEl.textContent = eventDetails?.name || 'Event Details N/A';
+                    }
+                } catch (eventErr) {
+                    console.warn('Could not load event title:', eventErr.message);
+                    if (titleEl) titleEl.textContent = 'Event Details Unavailable';
+                }
+
+                const status = await fetchTBA(`/team/${TEAM_KEY}/event/${EVENT_KEY}/status`);
+
+                if (!status) {
+                    if (rankEl) rankEl.textContent = 'N/A';
+                    if (recordEl) recordEl.textContent = 'N/A';
+                    if (scoreEl) scoreEl.textContent = 'N/A';
+                    if (playoffEl) playoffEl.textContent = 'N/A';
+                    return;
+                }
+
+                const qualRank = status.qual?.ranking?.rank;
+                if (rankEl) {
+                    rankEl.textContent = qualRank != null ? qualRank : 'N/A';
+                }
+
+                const wins = status.qual?.ranking?.record?.wins ?? 0;
+                const losses = status.qual?.ranking?.record?.losses ?? 0;
+                const ties = status.qual?.ranking?.record?.ties ?? 0;
+
+                if (recordEl) {
+                    recordEl.textContent = status.qual?.ranking?.record 
+                        ? `${wins}-${losses}-${ties}` 
+                        : '0-0-0';
+                }
+
+                if (scoreEl) {
+                    const primarySort = status.qual?.ranking?.sort_order_info?.[0]?.sort_value;
+                    scoreEl.textContent = typeof primarySort === 'number' ? primarySort.toFixed(2) : 'N/A';
+                }
+
+                if (playoffEl) {
+                    let playoffDisplay = 'Upcoming';
+
+                    if (status.playoff?.status && status.playoff?.level) {
+                        playoffDisplay = `${status.playoff.status.toUpperCase()} (${status.playoff.level.toUpperCase()})`;
+                    } else if (status.overall_status_str) {
+                        playoffDisplay = status.overall_status_str.replace(/<[^>]*>?/gm, '');
+                    }
+
+                    playoffEl.textContent = playoffDisplay;
+                }
+
+            } catch (error) {
+                console.error('Error loading status:', error);
+                if (rankEl) rankEl.textContent = 'API Error';
+                if (recordEl) recordEl.textContent = '--';
+            }
+        }
+
+        async function loadMatches() {
+            const matchesContainer = document.getElementById('match-schedule');
+            const now = Math.floor(Date.now() / 1000); 
+            
+            try {
+                const allMatches = await fetchTBA(`/team/${TEAM_KEY}/event/${EVENT_KEY}/matches`);
+
+                const filteredMatches = allMatches
+                    .filter(m => m.comp_level !== 'p')
+                    //.sort((a, b) => a.time - b.time); //ascending order (1-999)
+                    .sort((a, b) => b.time - a.time); //descending order (999-1)
+
+                if (matchesContainer) {
+                    matchesContainer.innerHTML = '';
+
+                    if (filteredMatches.length === 0) {
+                        matchesContainer.innerHTML = '<p class="text-center text-gray-500">No official matches found for this event yet.</p>';
+                        return;
+                    }
+                    
+                    filteredMatches.forEach(match => {
+                        matchesContainer.innerHTML += renderMatch(match);
+                    });
+                }
+                
+                const nextMatch = allMatches
+                    .filter(m => m.comp_level !== 'p' && m.time > now)
+                    .sort((a, b) => a.time - b.time)[0]; 
+
+                const nextMatchTime = nextMatch ? formatMatchTime(nextMatch.time) : 'N/A';
+
+
+            } catch (error) {
+                console.error('Error loading matches:', error);
+                if (matchesContainer) {
+                    matchesContainer.innerHTML = `<p class="text-center text-red-400">Failed to load schedule: ${error.message}.</p>`;
+                }
+            }
+        }
+
+        async function initDashboard() {
+            try {
+                await loadStatus();
+                await loadMatches();
+
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) loadingIndicator.classList.add('hidden');
+                
+                const content = document.getElementById('content');
+                if (content) content.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Critical initialization error:', error);
+                
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.classList.add('hidden');
+                }
+
+                const errorDetails = document.getElementById('error-details');
+                if (errorDetails) {
+                    errorDetails.textContent = error.message || 'An unknown error occurred during initialization.';
+                }
+                
+                const errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                    errorMessage.classList.remove('hidden');
+                }
+            }
+        }
+
+        window.onload = initDashboard;
+    </script>
+
+      <div id="overview">
+        <p class="award"><i class="bi bi-award-fill"></i> Upcoming Event </p>
+      </div>
+     <!-- Footer located in /assets/ftr.html -->
+  <div id="ftr-placeholder">
+  </div>
+  <script>
+  $(function(){
+    $("#ftr-placeholder").load("/assets/ftr.html");
+  });
+  </script>
+
+</body>
+</html>

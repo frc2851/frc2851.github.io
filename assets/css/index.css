@@ -903,12 +903,18 @@ footer {
   }
 }
 
+.miwk527 {
+  /* background-image: url("/assets/img/comps/miwk527.jpg") !important; */
+}
+.mibel27 {
+  /* background-image: url("/assets/img/comps/mibel27.jpg") !important; */
+}
 .kickoff27 {
   background-image: var(--striped-gold);
 }
 
 .mibro126 {
-  /* background-image: url("/assets/img/comps/") !important; */
+  /* background-image: url("/assets/img/comps/mibro126.jpg") !important; */
 }
 .frc26 {  
   background-image: url("/assets/img/comps/frc26.jpg") !important;
