@@ -246,8 +246,8 @@
 
                 const filteredMatches = allMatches
                     .filter(m => m.comp_level !== 'p')
-                    //.sort((a, b) => a.time - b.time); //ascending order (1-999)
-                    .sort((a, b) => b.time - a.time); //descending order (999-1)
+                    .sort((a, b) => a.time - b.time); //ascending order (1-999)
+                    //.sort((a, b) => b.time - a.time); //descending order (999-1)
 
                 if (matchesContainer) {
                     matchesContainer.innerHTML = '';
