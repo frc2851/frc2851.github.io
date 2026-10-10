@@ -1097,8 +1097,7 @@ background-image: url("/assets/img/comps/mitry09.jpg") !important;
   border-radius: var(--radius);
 }
 .game {
-  height: 150px;
-  background: var(--striped-black-large);
+  height: 100px;
   margin-bottom: 50px;
 }
 .refer {
@@ -1143,10 +1142,10 @@ background-image: url("/assets/img/comps/mitry09.jpg") !important;
   }
 }
 .red-all {
-  background: var(--striped-red);
+  background: var(--striped-black-large);
 }
 .red-all-score {
-  background: repeating-linear-gradient(-45deg,#573131,#573131 5px,#512d2d 5px,#512d2d 10px);
+  background: var(--striped-red)
 }
 .middle-area {
   width: 20%;
@@ -1161,10 +1160,10 @@ background-image: url("/assets/img/comps/mitry09.jpg") !important;
   }
 }
 .blue-all-score {
-  background: repeating-linear-gradient(-45deg,#366060,#366060 5px,#3b6a6a 5px,#3b6a6a 10px);
+  background: var(--striped-darkblue)
 }
 .blue-all {
-  background: repeating-linear-gradient(-45deg,#65b2b2,#65b2b2 5px,#5da1a1 5px,#5da1a1 10px);
+  background: var(--striped-black-large)
 }
 .crevo {
   color: var(--gold);
