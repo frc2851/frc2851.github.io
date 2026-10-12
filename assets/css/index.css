@@ -775,6 +775,10 @@ footer {
   #aboutheading {
     font-size: 35px;
   }
+  .department-container {
+    display: block;
+    padding: 10px;
+  }
 }
 /* Related to About ^ */
 
