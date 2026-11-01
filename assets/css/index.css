@@ -199,20 +199,22 @@ a {
 
 /* Related to Navbar v */
 #navbar {
-  background-color: var(--black3);
-  border-radius: 100px;
-  width: 400px;
-  margin: auto;
-  margin-top: 5px;
-  position: fixed;
-  z-index: 900;
-  display: flex;
-  transform: translate(-50%, 0);
-  left: 50%;
+  width: auto;
   height: 80px;
+  border-radius: 40px;
+  position: fixed;
+  transform: translate(-50%, 0);
+  z-index: 900;
+  left: 50%;
+  margin-top: 20px;
+  display: flex;
+  transition: all .5s ease-in-out;
+  border-radius: 40px;
+  background-color: #000000aa;
+  backdrop-filter: blur(10px);
 }
 #navbarlogo {
-  width: 25%;
+  margin-right: 20px;
   img {
     height: 60px;
     margin: 10px;
@@ -220,7 +222,7 @@ a {
 }
 #watchicon {
   display: flex;
-  width: 50%;
+  margin-right: 30px;
   img {
     width: 60px;
     margin: 10px;
@@ -228,68 +230,78 @@ a {
   }
 }
 #menuicon {
-  display: flex;
-  width: 25%;
-    img {
-    height: 60px;
-    margin: 10px;
-    margin-left: auto; margin-right: 10px;
+  display: none;
+  margin-right: 20px;
+  img {
+    height: 30px;
+    margin: auto;
+    margin-right: 0;
     cursor: pointer;
   }
 }
-#undernavbar {
-  background-color: #000000aa;
-  backdrop-filter: blur(10px);
-  border-radius: var(--radius);
-  width: 350px;
-  margin: auto;
-  margin-top: 5px;
-  position: fixed;
-  z-index: 899;
+#navbarmain {
   display: flex;
-  transform: translate(-50%, 0);
-  left: 50%;
-  height: 80px;
-  transition: all .2s;
 }
-#navicons {
-  width: 350px;
-  margin-top: 45px;
-  margin-left: auto; margin-right: auto;
-  height: 30px;
-  transition: all .2s;
-  a {
-    height: 30px;
-    width: 20%;
-    margin-left: 20px;
-    flex-grow: 1;
+.navicon {
+  display: flex;
+    height: 50px;
+    padding: 10px;
+    border-radius: 30px;
+    margin: auto 20px auto 0;
     img {
       height: 30px;
+      margin-right: 10px;
     }
+    span {
+      font-size: 20px;
+      line-height: 30px;
+      font-weight: 700;
+    }
+    transition: .2s ease;
+}
+.navicon:hover {
+  background-color: #efb821aa;
+}
+#navbarpages {
+  display: flex;
+  transition: all .5s ease;
+}
+@media screen and (min-width:1151px) {
+  #navbarpages {
+    transform: none;
   }
 }
-.navbartext {
-  width: 50%;
-  display: none;
-  text-align: center;
-  align-items: center;
-  height: 100%;
-  font-weight: 700;
-  font-size: 20px;
-  transition: all 200ms;
-}
-@media screen and (max-width:990px) {
+@media screen and (max-width:1150px) {
   #navbar {
     bottom: 10px;
-    width: 350px;
+    flex-direction: column-reverse;
+    background-color: #00000000;
+    backdrop-filter: none;
+  }
+  #navbarmain {
+    display: flex;
+    backdrop-filter: blur(10px);
+    border-radius: 40px;
+    background-color: #000000aa;
+    z-index: 900;
+  }
+  #menuicon {
+    display: flex;
+  }
+  .navicon {
+    margin-right: 0;
+  }
+  #navbarpages {
+    flex-direction: column-reverse;
+    background-color: #00000066;
+    margin-bottom: 10px;
+    padding: 10px;
     border-radius: var(--radius);
-  }
-  #undernavbar {
-    bottom: 10px;
-  }
-  #navicons {
-    margin-bottom: 45px;
-    margin-top: 5px;
+    backdrop-filter: blur(10px) !important;
+    width: fit-content;
+    margin-left: auto; margin-right: auto;
+    transform: translate(0, 150%);
+    z-index: 800;
   }
 }
 /* Related to Navbar ^ */
@@ -734,27 +746,7 @@ footer {
   background-position: center;
   background-size: cover;
 }
-#build-right {
-  background-image: url("/assets/img/subteam/build.jpg");
-}
-#design-right {
-  background-image: url("/assets/img/subteam/design.jpg");
-}
-#programming-right {
-  background-image: url("/assets/img/subteam/programming.jpg");
-}
-#electrical-right {
-  background-image: url("/assets/img/subteam/electrical.jpg");
-}
-#marketing-right {
-  background-image: url("/assets/img/subteam/marketing.jpg");
-}
-#safety-right {
-  background-image: url("/assets/img/spotimg/safetyanimation26.png");
-}
-#business-right {
-  background-image: url("/assets/img/subteam/business.jpg");
-}
+
 @media screen and (max-width:770px) {
   .about-list {
     font-size: 15px;
@@ -918,7 +910,7 @@ footer {
 }
 
 .mibro126 {
-  /* background-image: url("/assets/img/comps/mibro126.jpg") !important; */
+  background-image: url("/assets/img/comps/mibro126.jpg") !important;
 }
 .frc26 {  
   background-image: url("/assets/img/comps/frc26.jpg") !important;

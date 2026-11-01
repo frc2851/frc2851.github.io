@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite,home,search,settings" rel="stylesheet" />
+<div id="fullnav">
+  <div id="navbar">
+    <a id="navbarlogo" href="/"><img  src="/assets/img/logos/watermark.svg"></a>
+    <p id="nvtxt-blank" class="navbartext"> </p>
+    <p id="nvtxt-home" class="navbartext">Home</p>
+    <p id="nvtxt-about" class="navbartext">About</p>
+    <p id="nvtxt-history" class="navbartext">History</p>
+    <p id="nvtxt-sponsors" class="navbartext">Sponsors</p>
+    <p id="nvtxt-community" class="navbartext">Community</p>
+    <p id="nvtxt-portal" class="navbartext">Team Portal</p>
+    <a style="opacity: 0%;" id="watchicon"  href="/watch"><img src="/assets/img/icons/watch.svg"></a>
+    <a id="menuicon" onclick="menu()"><img src="/assets/img/icons/menu.svg"></a>
+  </div>
+  <div id="undernavbar" style="height: 80px">
+    <div id="navicons">
+      <a onmouseover="hoverhome()" class="navicon-home" href="/"><img lass="navicon-home" src="/assets/img/icons/home.svg"></a>
+      <a onmouseover="hoverabout()" class="navicon-about" href="/about"><img src="/assets/img/icons/about.svg"></a>
+      <a onmouseover="hoverhistory()" class="navicon-history" href="/history"><img src="/assets/img/icons/history.svg"></a>
+      <a onmouseover="hoversponsors()" class="navicon-sponsors" href="/sponsors"><img src="/assets/img/icons/sponsors.svg"></a>
+      <a onmouseover="hovercommunity()" class="navicon-community" href="/community"><img src="/assets/img/icons/community.svg"></a>
+      <a onmouseover="hoverportal()" class="navicon-portal" href="/portal"><img src="/assets/img/icons/portal.svg"></a>
+    </div>
+  </div>
+</div>
+<script>
+  const isMobile = () => {
+  if (navigator.userAgentData) {
+    return navigator.userAgentData.mobile;
+  }
+  return /Mobi|Android/i.test(navigator.userAgent);
+  };
+
+  var home = document.getElementById("nvtxt-home");
+  var about = document.getElementById("nvtxt-about");
+  var histor = document.getElementById("nvtxt-history");
+  var portal = document.getElementById("nvtxt-portal");
+  var sponsors = document.getElementById("nvtxt-sponsors");
+  var community = document.getElementById("nvtxt-community");
+  var blank = document.getElementById("nvtxt-blank");
+  function menu() {
+    var x = document.getElementById("undernavbar");
+    var y = document.getElementById("navicons");
+    var z = document.getElementById("watchicon");
+    if (x.style.height === "80px") {
+      if (isMobile()) {
+        y.style.marginBottom = "95px"
+      } else {
+        y.style.marginTop = "85px";
+      }
+      x.style.height = "120px";
+      z.style.display = "none";
+      blank.style.display = "grid";
+    } else {      
+      if (isMobile()) {
+        y.style.marginBottom = "45px"
+      } else {
+        y.style.marginTop = "45px";
+      }
+      x.style.height = "80px";
+      z.style.display = "flex";
+      home.style.display = "none";
+      about.style.display = "none";
+      histor.style.display = "none";
+      portal.style.display = "none";
+      sponsors.style.display = "none";
+      community.style.display = "none";
+      blank.style.display = "none";
+    }
+  } 
+  function hoverhome() {
+    home.style.display = "grid";
+    about.style.display = "none";
+    histor.style.display = "none";
+    portal.style.display = "none";
+    sponsors.style.display = "none";
+    community.style.display = "none";
+    blank.style.display = "none";
+  }
+  function hoverabout() {
+    home.style.display = "none";
+    about.style.display = "grid";
+    histor.style.display = "none";
+    portal.style.display = "none";
+    sponsors.style.display = "none";
+    community.style.display = "none";
+    blank.style.display = "none";
+  }
+  function hoverhistory() {
+    home.style.display = "none";
+    about.style.display = "none";
+    histor.style.display = "grid";
+    portal.style.display = "none";
+    sponsors.style.display = "none";
+    community.style.display = "none";
+    blank.style.display = "none";
+  }
+  function hoverportal() {
+    home.style.display = "none";
+    about.style.display = "none";
+    histor.style.display = "none";
+    portal.style.display = "grid";
+    sponsors.style.display = "none";
+    community.style.display = "none";
+    blank.style.display = "none";
+  }
+  function hoversponsors() {
+    home.style.display = "none";
+    about.style.display = "none";
+    histor.style.display = "none";
+    portal.style.display = "none";
+    sponsors.style.display = "grid";
+    community.style.display = "none";
+    blank.style.display = "none";
+  }
+  function hovercommunity() {
+    home.style.display = "none";
+    about.style.display = "none";
+    histor.style.display = "none";
+    portal.style.display = "none";
+    sponsors.style.display = "none";
+    community.style.display = "grid";
+    blank.style.display = "none";
+  }
+</script>

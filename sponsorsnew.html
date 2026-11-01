@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <!-- Responsiveness -->
+      <meta charset="UTF8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <!-- Page Title -->
+      <title>Sponsors</title>
+       
+      <!-- Link Assets & CSS -->
+      <link rel="icon" href="/assets/img/logos/favicon.svg" type="image/png" sizes="16x16" />
+      <link rel="stylesheet" href="/assets/css/bootstrap.css">
+      <link href="/assets/css/index.css" rel="stylesheet" type="text/css" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    </head>
+<body>
+
+  <!-- Link JS -->
+  <script src="/assets/js/bootstrap.js"></script>
+  <script src="/assets/js/jquery.js"></script>
+
+  <!-- Navbar located in /assets/nav.html -->
+  <div id="nav-placeholder">
+  </div>
+  <script>
+  $(function(){
+    $("#nav-placeholder").load("assets/nav.html");
+  });
+  </script>
+  <div class="jbo"> </div>
+    <div id="sponsors-tc" class="jb t-card">
+      <div class="blktcbk">
+      <h1 class="title">SPONSORS</h1>
+      </div>
+    </div>
+	<div id="sponsor-pg">
+		<p class="txtc">Your logo could be here: <a class="link" href="mailto:crevo.robotics@gmail.com" >Sponsor Crevolution!</a> Sponsors will be updated by our first competition.</p>
+	    <div class="container text-center">
+			<div class="tier row">
+			<div class="col tierleft">
+				<h1 class="heading">Platinum Tier</h1>
+			</div>
+			<div class="col tierright">
+				<p>+ Company announced at all competitions</p>
+				<p>+ All below benefits</p>
+			</div>
+		  </div>
+		  
+		</div>
+		  <br>
+		<div class="container text-center">
+			<div class="tier row">
+			<div class="col">
+				<h1 class="heading">Gold Tier</h1>
+			</div>
+			<div class="col tierright">
+				<p>+ Logo on world competition shirts + Logo on our robot</p>
+				<p class="bottomp">+ All below benefits</p>
+			</div>
+		  </div>
+		  
+</div>
+		  <br>
+		<div class="container text-center">
+			<div class="tier row">
+			<div class="col">
+				<h1 class="heading">Silver Tier</h1>
+			</div>
+			<div class="col tierright">
+				<p>+ Logo on state competition shirts + Logo on team banner</p>
+				<p class="bottomp">+ All below benefits</p>
+			</div>
+		  </div>
+</div>
+		  <br>
+		<div class="container text-center">
+			<div class="tier row">
+			<div class="col">
+				<h1 class="heading">Bronze Tier</h1>
+			</div>
+			<div class="col tierright">
+				<p>+ Social Media Post + Logo on state qualification shirts</p>
+				<p class="bottomp">+ All below benefits</p>
+			</div>
+			</div>
+			</div>
+		  <br>
+		<div class="container text-center">
+			<div class="tier row">
+			<div class="col">
+				<h1 class="heading">Member Tier</h1>
+			</div>
+			<div class="col tierright">
+				<p>+ Logo on website + Logo on sponsor banner</p>
+			</div>
+			</div>
+			</div>
+		<br>
+		<h2 class="heading">Special Thanks to Crevolution Families!</h2>
+
+  
+	  <script>
+		const all = document.querySelectorAll(".card");
+		window.addEventListener("mousemove", (ev) => {
+		  all.forEach((e) => {
+			const blob = e.querySelector(".blob");
+			const fblob = e.querySelector(".fakeblob");
+			const rec = fblob.getBoundingClientRect();
+			blob.style.opacity = "1";
+			blob.animate(
+			  [
+				{
+				  transform: `translate(${
+					(ev.clientX - rec.left) - (rec.width / 2)
+				  }px,${(ev.clientY - rec.top) - (rec.height / 2)}px)`
+				}
+			  ],
+			  {
+				duration: 300,
+				fill: "forwards"
+			  }
+			);
+		  });
+		});
+		</script>	
+     <!-- Footer located in /assets/ftr.html -->
+  <div id="ftr-placeholder">
+  </div>
+  <script>
+  $(function(){
+    $("#ftr-placeholder").load("assets/ftr.html");
+  });
+	</script>
+</body>
+</html>
