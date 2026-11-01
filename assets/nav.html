@@ -11,19 +11,24 @@
         <a class="navicon" href="/history"><img src="/assets/img/icons/history.svg"><span>History</span></a>
         <a class="navicon" href="/community"><img src="/assets/img/icons/community.svg"><span>Community</span></a>
         <a class="navicon" href="/sponsors"><img src="/assets/img/icons/sponsors.svg"><span>Sponsors</span></a>
-        <a class="navicon" href="/portal"><img src="/assets/img/icons/portal.svg"><span>Portal</span></a>
+        <a class="navicon" id="portalnavicon" href="/portal"><img src="/assets/img/icons/portal.svg"></a>
     </div>
+    
 </div>
+<a id="m_portalnavicon" href="/portal"><img src="/assets/img/icons/portal.svg"></a>
 <script>
     var x = 0
     function menu() {
         var navbarpages = document.getElementById("navbarpages");
+        var mpni = document.getElementById("m_portalnavicon");
         var show = window.getComputedStyle(navbarpages).translate;
         if (x === 1) {
             navbarpages.style.transform = "translate(0px, 150%)"
+            mpni.style.bottom = "-70px"
             x = 0
         } else {
             navbarpages.style.transform = "translate(0px, 0px)"
+            mpni.style.bottom = "20px"
             x = 1
         }
     }

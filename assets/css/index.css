@@ -266,6 +266,13 @@ a {
   display: flex;
   transition: all .5s ease;
 }
+#portalnavicon img {
+  margin-right: 0;
+}
+#m_portalnavicon {
+  display: none;
+  transition: .5s ease-in-out;
+}
 @media screen and (min-width:1151px) {
   #navbarpages {
     transform: none;
@@ -292,16 +299,32 @@ a {
     margin-right: 0;
   }
   #navbarpages {
-    flex-direction: column-reverse;
-    background-color: #00000066;
+    flex-direction: column;
+    background-color: #000000aa;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: var(--radius);
-    backdrop-filter: blur(10px) !important;
+    backdrop-filter: blur(10px);
     width: fit-content;
     margin-left: auto; margin-right: auto;
     transform: translate(0, 150%);
     z-index: 800;
+  }
+  #portalnavicon {
+    display: none;
+  }
+  #m_portalnavicon {
+    display: flex;
+    position: fixed;
+    left: 20px;
+    bottom: -70px;
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    z-index: 900;
+    background-color: #000000aa;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
   }
 }
 /* Related to Navbar ^ */
