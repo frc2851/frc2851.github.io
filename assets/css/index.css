@@ -428,7 +428,7 @@ footer {
   color: var(--white);
   font-weight: 900;
 }
-#index-spot {
+#index-plate {
   width: 75%;
   height: 500px;
   background: var(--striped-black-large);
@@ -438,7 +438,7 @@ footer {
   border: 10px solid var(--black3);
   display: flex;
 }
-#index-spot-img {
+#index-plate-img {
   width: 50%;
   height: 100%;
   object-fit: cover;
@@ -450,7 +450,7 @@ footer {
   background-position: center;
 }
 
-#index-spot-rightpanel {
+#index-plate-rightpanel {
   width: 50%;
 }
 #indexlogo {
@@ -460,113 +460,15 @@ footer {
  margin-left: 20%; margin-right: 20%;
  margin-bottom: 50px;
 }
-#index-spot-text {
+#index-plate-text {
   text-align: center;
   margin-left: 5%; margin-right: 5%;
   font-weight: 700;
 }
-#index-spot-more {
+#index-plate-more {
   width: 50%;
   height: 50px;
   margin-left: 25%; margin-right: 25%;
-}
-#events-plate {
-  margin-left: 10%;
-  width: 80%;
-  margin-bottom: 100px;
-}
-#m-events {
-  margin-left: 10%;
-  width: 80%;
-  margin-bottom: 100px;
-  display: none;
-}
-.events-slot {
-  display: flex;
-}
-#events-numbers {
-  display: flex;  
-}
-.week {
-  width: 12.5%;
-  display: flex;
-
-  align-items: center;
-  h1 {
-    margin-top: 8px;
-    width: 100%;
-    text-align: center;
-    font-weight: 900;     
-  }
-  i {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: 40px;
-  }
-  img {
-    margin: auto;
-  }
-  a {
-    width: 100%;
-  }
-  p {
-    width: 100%;
-    text-align: center;
-    font-weight: 500;
-  }
-}
-.m-week {
-  width: 100%;
-  display: flex;
-
-  align-items: center;
-  h1 {
-    margin-top: 8px;
-    width: 100%;
-    text-align: center;
-    font-weight: 900;     
-  }
-  i {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: 40px;
-  }
-  img {
-    margin: auto;
-  }
-  a {
-    width: 100%;
-  }
-  p {
-    width: 100%;
-    text-align: center;
-    font-weight: 500;
-  }
-}
-.evsl2 {
-  background: var(--striped-black-large);
-  border-radius: var(--radius);
-}
-.evt {
-  color: var(--gold);
-  transition: all .5s ease-out;
-}
-.evt:hover {
-  rotate: 15deg;
-  color: var(--white);
-}
-.novt {
-  color: var(--black2);
-}
-.pvt {
-  color: var(--black3);
-  transition: all .5s ease-out;
-}
-.pvt:hover {
-  rotate: 15deg;
-  color: var(--lightblue);
 }
 
 #donate-plate {
@@ -605,7 +507,7 @@ footer {
 }
 /* MOBILE VERSION CHANGES */
 @media screen and (max-width:770px) {
-  #index-spot {
+  #index-plate {
     width: 100%;
     border-radius: 0px; /* keep radius */
     height: fit-content;
@@ -613,15 +515,15 @@ footer {
     background-size: cover;
     border-left: none; border-right: none;
   }
-  #index-spot-img {
+  #index-plate-img {
     display: none;
   }
-  #index-spot-rightpanel {
+  #index-plate-rightpanel {
     width: 100%;
     backdrop-filter: blur(5px) brightness(50%);
     height: 100%;
   }
-  #index-spot-more {
+  #index-plate-more {
     margin-bottom: 10px;
   }
   #watchbanner {
@@ -1606,7 +1508,7 @@ filter: drop-shadow(5px 5px #00000066);
 #lowcamps-tc {
   background-image: url("/assets/img/carousel/2025-teamimg.jpg");
 }
-.campspot {
+.campplate {
   width: 80%;
   height: auto;
   background: var(--striped-black-large);
@@ -1697,7 +1599,7 @@ filter: drop-shadow(5px 5px #00000066);
   border-radius: var(--radiushover);
 }
 @media screen and (max-width:990px) {
-  .campspot {
+  .campplate {
     display: block;
     padding: 25px 0 25px 0;
   }
